@@ -161,9 +161,10 @@
     </div>
     <div class="quadrat2">
         <div class="text">
-            <h1 class="center">scan history</h1>
+            <h1 class="center">Scan History</h1>
+            <ul id="scan-history-list"></ul>
         </div>
-    </div>
+    </div>    
 
     <div class="quadrat3">
         <div class="text">
@@ -181,64 +182,49 @@
         <i class="fa fa-moon"></i>
     </button>
     <script>
-        const themeToggleButton = document.getElementById('theme-toggle');
-        const themeStyle = document.getElementById('theme-style');
+        const scanButton = document.getElementById('scan-button');
+        const scanHistoryList = document.getElementById('scan-history-list');
 
-        themeToggleButton.addEventListener('click', () => {
-            if (themeStyle.innerText.includes('rgb(27, 27, 27)')) {
+        // Lade zuvor gespeicherte Scan-Historie beim Seitenstart
+        const storedScanHistory = JSON.parse(localStorage.getItem('scanHistory')) || [];
 
-                themeStyle.innerText = `
-                body {
-                        background-color: white;
-                        color: black;
-                    }
-
-                    .quadrat {
-                        background-color: #2b2b2b;
-                    }
-                    .quadrat2 {
-                        background-color: #2b2b2b;
-                    }
-                    .quadrat3 {
-                        background-color: #2b2b2b;
-                    }
-                    .quadrat4 {
-                        background-color: #2b2b2b;
-                    }
-
-                    .top{
-                        background-color: #555;
-
-                    }
-
-                    .linkgroups {
-                        background-color: black;
-
-
-                `;
-                themeToggleButton.innerHTML = '<i class="fa fa-sun"></i>';
-            } else {
-                themeStyle.innerText = `
-                    body {
-                        background-color: rgb(27, 27, 27);
-                        color: white;
-                    }
-                `;
-                themeToggleButton.innerHTML = '<i class="fa fa-moon"></i>';
-            }
-        });
-    </script>
-    <script>
-    const scanButton = document.getElementById('scan-button');
-
-    scanButton.addEventListener('click', () => {
-        fetch('http://localhost:8000/start_scan', { method: 'GET' })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch((error) => {
-                console.error('Error:', error);
+        // Funktion zum Anzeigen und Speichern der Scan-Historie
+        function displayAndStoreScanHistory() {
+            scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
+            
+            storedScanHistory.forEach(entry => {
+                const listItem = document.createElement('li');
+                listItem.textContent = entry;
+                scanHistoryList.appendChild(listItem);
             });
-    });
+            
+            scanButton.addEventListener('click', () => {
+                const currentTime = new Date().toLocaleString();
+
+                fetch('https://api64.ipify.org?format=json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const userIP = data.ip;
+                        const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
+                        storedScanHistory.push(scanEntry);
+
+                        // Fügen Sie die neue Scan-Historie hinzu und speichern Sie sie im localStorage
+                        const listItem = document.createElement('li');
+                        listItem.textContent = scanEntry;
+                        scanHistoryList.appendChild(listItem);
+
+                        localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
+                    })
+                    .catch(error => {
+                        console.error('Fehler beim Abrufen der IP-Adresse:', error);
+                    });
+            });
+        }
+
+        // Rufen Sie die Funktion auf, um die Scan-Historie anzuzeigen und zu speichern
+        displayAndStoreScanHistory();
+
+
     </script>
 </body>
 
