@@ -7,7 +7,8 @@ def send_email_alerts(ips, ports):
     sender_email = 'liro08@gmx.ch'
     receiver_email = 'simeon.schaer1@gmail.com'
     password = getpass.getpass('Bitte gib dein E-Mail Passwort ein: ')
-# Verbindung zum E-Mail-Server herstellen
+    
+    # Verbindung zum E-Mail-Server herstellen
     smtp_server = 'mail.gmx.net'
     smtp_port = 587
     server = smtplib.SMTP(smtp_server, smtp_port)
@@ -17,19 +18,18 @@ def send_email_alerts(ips, ports):
     server.login(sender_email, password)
 
     for ip in ips:
-        for port in ports:
-            # Erstellen der E-Mail-Nachricht
-            message = MIMEMultipart()
-            message['From'] = sender_email
-            message['To'] = receiver_email
-            message['Subject'] = 'Warning!'
+        # Erstellen der E-Mail-Nachricht
+        message = MIMEMultipart()
+        port_text = ', '.join(ports)  # Konvertiere die Liste der Ports zu einem kommagetrennten String
+        message['From'] = sender_email
+        message['To'] = receiver_email
+        message['Subject'] = f'Securitywarning for Server with the IP: {ip}'
+        
+        body = f'This is a warning, on server {ip} the following ports are open: {port_text}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n'
+        message.attach(MIMEText(body, 'plain'))
 
-            port_text = ', '.join(ports)  # Konvertiere die Liste der Ports zu einem kommagetrennten String
-            body = f'This is a warning, on server {ip} the following ports are open: {port_text}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n'
-            message.attach(MIMEText(body, 'plain'))
-
-            # E-Mail senden
-            server.sendmail(sender_email, receiver_email, message.as_string())
+        # E-Mail senden
+        server.sendmail(sender_email, receiver_email, message.as_string())
 
     # Verbindung zum E-Mail-Server beenden
     server.quit()
