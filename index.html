@@ -168,9 +168,10 @@
         </div>
     </div>
 
-    <div class="quadrat3">
+    <div class="quadrat3" id="quadrat3">
         <div class="text">
-            <h1 class="center">random info</h1>
+            <h1 class="center">Your IP</h1>
+            <br>
         </div>
     </div>
 
@@ -182,6 +183,17 @@
 
 
     </button>
+    <script>
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const userIP = data.ip;
+                const currentTime = new Date().toLocaleString();
+                const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
+                document.getElementById('quadrat3').innerText = scanEntry;
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
     <script>
         const scanButton = document.getElementById('scan-button');
         const scanHistoryList = document.getElementById('scan-history-list');
