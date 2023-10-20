@@ -131,8 +131,9 @@
             margin-left: 1800px;
         }
         #scan-history-list {
-        max-height: 300px; /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
+        max-height: 400px; /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
         overflow-y: scroll; /* Nur bei Bedarf scrollen */
+        margin-right: 20px;
     }
     </style>
 
@@ -198,6 +199,7 @@
             
             const maxEntries = 12; // Maximale Anzahl der anzuzeigenden Einträge
     
+            // Fügen Sie die Einträge in umgekehrter Reihenfolge hinzu
             for (let i = storedScanHistory.length - 1; i >= 0; i--) {
                 const entry = storedScanHistory[i];
                 const listItem = document.createElement('li');
@@ -217,16 +219,22 @@
                     .then(data => {
                         const userIP = data.ip;
                         const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
-                        storedScanHistory.push(scanEntry);
     
-                        // Fügen Sie die neue Scan-Historie hinzu und speichern Sie sie im localStorage
-                        const listItem = document.createElement('li');
-                        listItem.textContent = scanEntry;
-                        scanHistoryList.appendChild(listItem);
+                        // Fügen Sie neue Einträge oben in die Liste hinzu
+                        storedScanHistory.unshift(scanEntry);
     
-                        while (scanHistoryList.childElementCount > maxEntries) {
-                            scanHistoryList.removeChild(scanHistoryList.firstChild);
+                        // Entfernen Sie überflüssige Einträge
+                        while (storedScanHistory.length > maxEntries) {
+                            storedScanHistory.pop();
                         }
+    
+                        // Aktualisieren Sie die Anzeige
+                        scanHistoryList.innerHTML = '';
+                        storedScanHistory.forEach(entry => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = entry;
+                            scanHistoryList.appendChild(listItem);
+                        });
     
                         localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
                     })
