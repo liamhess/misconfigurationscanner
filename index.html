@@ -54,6 +54,7 @@
             align-items: center, top;
             text-align: center;
         }
+
         .quadrat3 {
             display: flex;
             width: 200px;
@@ -119,25 +120,18 @@
         .search-bar i {
             margin-right: 10px;
         }
-    </style>
-    <style id="theme-style">
-        /* Default to dark theme */
-        body {
-            background-color: rgb(27, 27, 27);
-            color: white;
-        }
-
-        .darklight {
-            margin-left: 1800px;
-        }
 
         #scan-history-list {
-        max-height: 400px; 
-        /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
-        overflow-y: scroll; 
-        /* Nur bei Bedarf scrollen */
-        margin-right: 20px;
-    }
+            max-height: 395px;
+            width: 370px;
+            margin-left: -20px;
+            /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
+            overflow-y: scroll;
+            /* Nur bei Bedarf scrollen */
+        }
+    </style>
+
+
     </style>
 
 </head>
@@ -172,7 +166,7 @@
             <h1 class="center">Scan History</h1>
             <ul id="scan-history-list"></ul>
         </div>
-    </div>    
+    </div>
 
     <div class="quadrat3">
         <div class="text">
@@ -186,98 +180,49 @@
         </div>
     </div>
 
-    <button id="theme-toggle" class="darklight">
-        <i class="fa fa-moon"></i>
+
     </button>
-    <script>
-        const themeToggleButton = document.getElementById('theme-toggle');
-        const themeStyle = document.getElementById('theme-style');
-
-        themeToggleButton.addEventListener('click', () => {
-            if (themeStyle.innerText.includes('rgb(27, 27, 27)')) {
-
-                themeStyle.innerText = `
-                body {
-                        background-color: white;
-                        color: black;
-                    }
-
-                    .quadrat {
-                        background-color: #2b2b2b;
-                    }
-                    .quadrat2 {
-                        background-color: #2b2b2b;
-                    }
-                    .quadrat3 {
-                        background-color: #2b2b2b;
-                    }
-                    .quadrat4 {
-                        background-color: #2b2b2b;
-                    }
-
-                    .top{
-                        background-color: #555;
-
-                    }
-
-                    .linkgroups {
-                        background-color: black;
-
-
-                `;
-                themeToggleButton.innerHTML = '<i class="fa fa-sun"></i>';
-            } else {
-                themeStyle.innerText = `
-                    body {
-                        background-color: rgb(27, 27, 27);
-                        color: white;
-                    }
-                `;
-                themeToggleButton.innerHTML = '<i class="fa fa-moon"></i>';
-            }
-        });
-    </script>
     <script>
         const scanButton = document.getElementById('scan-button');
         const scanHistoryList = document.getElementById('scan-history-list');
-    
+
         // Lade zuvor gespeicherte Scan-Historie beim Seitenstart
         const storedScanHistory = JSON.parse(localStorage.getItem('scanHistory')) || [];
-    
+
         // Funktion zum Anzeigen und Speichern der begrenzten Scan-Historie
         function displayAndStoreScanHistory() {
             scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
-            
+
             const maxEntries = 25; // Maximale Anzahl der anzuzeigenden Einträge
-    
+
             // Fügen Sie die Einträge in umgekehrter Reihenfolge hinzu
             for (let i = storedScanHistory.length - 1; i >= 0; i--) {
                 const entry = storedScanHistory[i];
                 const listItem = document.createElement('li');
                 listItem.textContent = entry;
                 scanHistoryList.appendChild(listItem);
-                
+
                 if (scanHistoryList.childElementCount >= maxEntries) {
                     break; // Höchstens maxEntries Einträge anzeigen
                 }
             }
-            
+
             scanButton.addEventListener('click', () => {
-                const currentTime = new Date().toLocaleString();    
+                const currentTime = new Date().toLocaleString();
                 fetch('https://api64.ipify.org?format=json')
                     .then(response => response.json())
                     .then(data => {
                         const userIP = data.ip;
                         const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
-    
+
                         // Fügen Sie neue Einträge oben in die Liste hinzu
                         storedScanHistory.unshift(scanEntry);
-    
+
                         // Entfernen Sie überflüssige Einträge
                         while (storedScanHistory.length > maxEntries) {
                             storedScanHistory.pop();
                         }
-    
+
                         // Aktualisieren Sie die Anzeige
                         scanHistoryList.innerHTML = '';
                         storedScanHistory.forEach(entry => {
@@ -285,13 +230,13 @@
                             listItem.textContent = entry;
                             scanHistoryList.appendChild(listItem);
                         });
-    
+
                         localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
                     })
                     .catch(error => {
                         console.error('Fehler beim Abrufen der IP-Adresse:', error);
                     });
-                    
+
                 fetch('http://localhost:8000/start_scan', { method: 'GET' })
                     .then(response => response.json())
                     .then(data => console.log(data))
@@ -300,7 +245,7 @@
                     });
             });
         }
-    
+
         // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
         displayAndStoreScanHistory();
     </script>
