@@ -41,4 +41,4 @@ networks:
   backend:
   frontend:
 volumes:
-  caddy_data: 
+  caddy_data:
