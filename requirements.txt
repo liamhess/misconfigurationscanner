@@ -5,3 +5,4 @@ aiosocks
 python-decouple
 fastapi
 pydantic
+uvicorn
