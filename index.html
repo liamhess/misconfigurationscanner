@@ -169,8 +169,9 @@
     </div>
 
     <div class="quadrat3" id="quadrat3">
+        <h1 class="center">Your IP</h1>
+        <div id="ip"></div>
         <div class="text">
-            <h1 class="center">Your IP</h1>
             <br>
         </div>
     </div>
@@ -189,8 +190,8 @@
             .then(data => {
                 const userIP = data.ip;
                 const currentTime = new Date().toLocaleString();
-                const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
-                document.getElementById('quadrat3').innerText = scanEntry;
+                const scanEntry = `${userIP}`;
+                document.getElementById('ip').innerText = scanEntry;
             })
             .catch(error => console.error('Error:', error));
     </script>
