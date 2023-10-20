@@ -1,0 +1,42 @@
+version: '3.8'
+services: 
+  api:
+    image: dockermike1809/umb-api
+    environment:
+      - PASSWORD=Hackathon
+      - SMTP_SERVER=mail.gmx.ch
+      - SMTP_PORT=587
+      - SENDER_EMAIL=misconfiguration@gmx.ch
+      - RECEIVER_EMAIL=simeon.schaer1@gmail.com
+    networks:
+      - backend
+
+  frontend:
+    image: dockermike1809/umb-frontend
+    networks:
+      - backend
+
+  caddy:
+    image: caddy:alpine
+    command: /bin/sh -c "echo '{
+      email mike@ditton.email
+    }
+
+    web.kt8s.ch {
+      reverse_proxy frontend:80
+    }' > /etc/caddy/Caddyfile && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - caddy_data:/data
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - backend
+      - frontend
+
+networks:
+  backend:
+  frontend:
