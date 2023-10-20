@@ -40,3 +40,5 @@ services:
 networks:
   backend:
   frontend:
+volumes:
+  caddy_data: 
