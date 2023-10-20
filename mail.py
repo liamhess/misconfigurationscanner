@@ -14,7 +14,7 @@ def send_email_alerts(ips, ports):
     message['To'] = receiver_email
     message['Subject'] = 'Securitywarning for Servers with the IPs:'
 
-    body = f'This is a warning, on servers with the following IPs: {ips}, the following ports are open: {ports}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n'
+    body = f'This is a warning, on servers with the following IPs: {ips}, the following ports are open: {ports}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n\n\n\n Kind Regards \n Your Security-Team'
     message.attach(MIMEText(body, 'plain'))
 
     # Verbindung zum E-Mail-Server herstellen
