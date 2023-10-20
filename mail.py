@@ -2,13 +2,6 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from decouple import config
-import hashlib
-
-def hash_password(password):
-    # Hier wird das Passwort mit SHA-256 gehasht, Sie können eine andere Methode verwenden
-    sha256 = hashlib.sha256()
-    sha256.update(password.encode('utf-8'))
-    return sha256.hexdigest()
 
 def send_email_alerts(ips, ports):
     sender_email = config('SENDER_EMAIL')
@@ -38,10 +31,3 @@ def send_email_alerts(ips, ports):
 
     # Verbindung zum E-Mail-Server beenden
     server.quit()
-
-# E-Mail-Konfiguration
-ips = '127.0.0.1'
-ports = ['44', '10000', '25']
-
-# E-Mail senden
-send_email_alerts(ips, ports)
