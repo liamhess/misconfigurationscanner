@@ -2,7 +2,6 @@ import json
 import asyncio
 import aiohttp
 import mail
-import aiosocks
 
 async def check_port(ip, port):
     try:
