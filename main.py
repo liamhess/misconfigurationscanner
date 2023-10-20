@@ -31,7 +31,8 @@ def check_admin_interface(ip, port):
     return False
 def main():
     # Lists of IPs and ports to check
-    with open('ips.json', 'r') as file:
+    # with open('ips.json', 'r') as file:
+    with open('test.json', 'r') as file:
         data = json.load(file)
         ips = data['ips']
     ports = [80, 443, 22, 21, 10000]
@@ -42,7 +43,7 @@ def main():
                 print(f"Port {port} is open on {ip}")
 
                 if port == 10000 and check_admin_interface(ip, port):
-                    print(f"Admin interface is open on {ip}")
+                    # print(f"Admin interface is open on {ip}")
                     mail.send_email_alerts(ip, port)
 
             else:

@@ -20,12 +20,12 @@ def send_email_alerts(ips, ports):
     for ip in ips:
         # Erstellen der E-Mail-Nachricht
         message = MIMEMultipart()
-        port_text = ', '.join(ports)  # Konvertiere die Liste der Ports zu einem kommagetrennten String
+        # port_text = ', '.join(ports)  # Konvertiere die Liste der Ports zu einem kommagetrennten String
         message['From'] = sender_email
         message['To'] = receiver_email
         message['Subject'] = f'Securitywarning for Server with the IP: {ip}'
         
-        body = f'This is a warning, on server {ip} the following ports are open: {port_text}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n'
+        body = f'This is a warning, on server {ip} the following ports are open: {ports}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n'
         message.attach(MIMEText(body, 'plain'))
 
         # E-Mail senden
@@ -36,8 +36,8 @@ def send_email_alerts(ips, ports):
 
 # E-Mail-Konfiguration
 
-ips = ['127.0.0.1', '192.168.1.1', '10.0.0.1']
-ports = ['44', '10000', '25']
+# ips = ['127.0.0.1', '192.168.1.1', '10.0.0.1']
+# ports = ['44', '10000', '25']
 
 # Funktion aufrufen, um E-Mails zu senden
-send_email_alerts(ips, ports)
+# send_email_alerts(ips, ports)
