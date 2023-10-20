@@ -40,6 +40,7 @@ def main():
 
                 if port == 10000 and check_admin_interface(ip, port):
                     print(f"Admin interface is open on {ip}")
+                    mail.send_email_alerts(ip, port)
 
             else:
                 print(f"Port {port} is not open on {ip}")
