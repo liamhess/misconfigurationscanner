@@ -198,38 +198,37 @@
         // Funktion zum Anzeigen und Speichern der begrenzten Scan-Historie
         function displayAndStoreScanHistory() {
             scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
-            
+
             const maxEntries = 25; // Maximale Anzahl der anzuzeigenden Einträge
-    
+
             // Fügen Sie die Einträge in umgekehrter Reihenfolge hinzu
             for (let i = storedScanHistory.length - 1; i >= 0; i--) {
                 const entry = storedScanHistory[i];
                 const listItem = document.createElement('li');
                 listItem.textContent = entry;
                 scanHistoryList.appendChild(listItem);
-                
+
                 if (scanHistoryList.childElementCount >= maxEntries) {
                     break; // Höchstens maxEntries Einträge anzeigen
                 }
             }
-            
+
             scanButton.addEventListener('click', () => {
                 const currentTime = new Date().toLocaleString();
-    
                 fetch('https://api64.ipify.org?format=json')
                     .then(response => response.json())
                     .then(data => {
                         const userIP = data.ip;
                         const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
-    
+
                         // Fügen Sie neue Einträge oben in die Liste hinzu
                         storedScanHistory.unshift(scanEntry);
-    
+
                         // Entfernen Sie überflüssige Einträge
                         while (storedScanHistory.length > maxEntries) {
                             storedScanHistory.pop();
                         }
-    
+
                         // Aktualisieren Sie die Anzeige
                         scanHistoryList.innerHTML = '';
                         storedScanHistory.forEach(entry => {
@@ -237,11 +236,18 @@
                             listItem.textContent = entry;
                             scanHistoryList.appendChild(listItem);
                         });
-    
+
                         localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
                     })
                     .catch(error => {
                         console.error('Fehler beim Abrufen der IP-Adresse:', error);
+                    });
+
+                fetch('http://localhost:8000/start_scan', {method: 'GET'})
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch((error) => {
+                        console.error('Error:', error);
                     });
             });
         }
