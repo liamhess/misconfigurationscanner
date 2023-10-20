@@ -156,7 +156,7 @@
     <div class="quadrat">
         <div class="text">
             <h1>Scan open Ports</h1>
-            <button class="button">Scan</button>
+            <button id="scan-button" class="button">Scan</button>
         </div>
     </div>
     <div class="quadrat2">
@@ -227,6 +227,18 @@
                 themeToggleButton.innerHTML = '<i class="fa fa-moon"></i>';
             }
         });
+    </script>
+    <script>
+    const scanButton = document.getElementById('scan-button');
+
+    scanButton.addEventListener('click', () => {
+        fetch('http://localhost:8000/start_scan', { method: 'GET' })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
     </script>
 </body>
 
