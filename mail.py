@@ -13,7 +13,7 @@ def hash_password(password):
 def send_email_alerts(ips, ports):
     sender_email = config('SENDER_EMAIL')
     receiver_email = config('RECEIVER_EMAIL')
-    password = config('PASSWORD_HASHED')
+    password = config('PASSWORD')
 
     # Erstellen der E-Mail-Nachricht
     message = MIMEMultipart()

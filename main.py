@@ -30,8 +30,8 @@ async def check_ip_and_port(ip, port):
     if await check_port(ip, port):
         print(f"Port {port} is open on {ip}")
         if port == 10000 and await check_admin_interface(ip, port):
-            # mail.send_email_alerts(ip, port)
-            print(ip)
+            mail.send_email_alerts(ip, port)
+            # print(ip)
     else:
         print(f"Port {port} is not open on {ip}")
 
