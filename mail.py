@@ -17,27 +17,28 @@ def send_email_alerts(ips, ports):
     # Anmeldung beim E-Mail-Konto
     server.login(sender_email, password)
 
-    for ip in ips:
-        # Erstellen der E-Mail-Nachricht
-        message = MIMEMultipart()
-        # port_text = ', '.join(ports)  # Konvertiere die Liste der Ports zu einem kommagetrennten String
-        message['From'] = sender_email
-        message['To'] = receiver_email
-        message['Subject'] = f'Securitywarning for Server with the IP: {ip}'
-        
-        body = f'This is a warning, on server {ip} the following ports are open: {ports}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n'
-        message.attach(MIMEText(body, 'plain'))
+    ip_text = ', '.join(ips)  # Konvertiere die Liste der IPs zu einem kommagetrennten String
 
-        # E-Mail senden
-        server.sendmail(sender_email, receiver_email, message.as_string())
+    # Erstellen der E-Mail-Nachricht
+    message = MIMEMultipart()
+    #port_text = ', '.join(ports)  # Konvertiere die Liste der Ports zu einem kommagetrennten String
+    message['From'] = sender_email
+    message['To'] = receiver_email
+    message['Subject'] = 'Securitywarning for Servers with the IPs:'
+
+    body = f'This is a warning, on servers with the following IPs: {ip_text}, the following ports are open: {ports}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n'
+    message.attach(MIMEText(body, 'plain'))
+
+    # E-Mail senden
+    server.sendmail(sender_email, receiver_email, message.as_string())
 
     # Verbindung zum E-Mail-Server beenden
     server.quit()
 
 # E-Mail-Konfiguration
 
-# ips = ['127.0.0.1', '192.168.1.1', '10.0.0.1']
-# ports = ['44', '10000', '25']
+#ips = ['127.0.0.1', '192.168.1.1', '10.0.0.1']
+#ports = ['44', '10000', '25']
 
 # Funktion aufrufen, um E-Mails zu senden
-# send_email_alerts(ips, ports)
+send_email_alerts(ip_text, ports)
