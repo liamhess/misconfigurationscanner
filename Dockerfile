@@ -1,4 +1,4 @@
-FROM python
+FROM python:3.8.18-alpine3.17
 
 COPY . .
 
