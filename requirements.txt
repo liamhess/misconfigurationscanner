@@ -1,2 +1,4 @@
 requests
 secure-smtplib
+aiohttp
+aiosocks

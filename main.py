@@ -1,53 +1,50 @@
-import socket
-import requests
-import urllib3
-import mail
 import json
-# Disable the InsecureRequestWarning
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+import asyncio
+import aiohttp
+import mail
+import aiosocks
 
-
-def check_port(ip, port):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.settimeout(1)  # Set a timeout for the connection attempt
-        try:
-            s.connect((ip, port))
-            return True
-        except (socket.timeout, socket.error):
-            return False
-
-
-def check_admin_interface(ip, port):
+async def check_port(ip, port):
     try:
-        url = f"https://{ip}:{port}/login"
-        response = requests.get(url, timeout=1, verify=False)
+        reader, writer = await asyncio.wait_for(asyncio.open_connection(ip, port), timeout=1)
+        writer.close()
+        await writer.wait_closed()
+        return True
+    except (asyncio.TimeoutError, OSError):
+        return False
 
-        # Check if we get a successful response
-        if response.status_code == 200:
-            return True
-    except requests.RequestException:
-        pass
 
-    return False
-def main():
+async def check_admin_interface(ip, port):
+    async with aiohttp.ClientSession() as session:
+        try:
+            url = f"https://{ip}:{port}/login"
+            async with session.get(url, timeout=1, ssl=False) as response:
+                # Check if we get a successful response
+                if response.status == 200:
+                    return True
+        except aiohttp.ClientError:
+            pass
+        return False
+
+async def check_ip_and_port(ip, port):
+    if await check_port(ip, port):
+        print(f"Port {port} is open on {ip}")
+        if port == 10000 and await check_admin_interface(ip, port):
+            # mail.send_email_alerts(ip, port)
+            print(ip)
+    else:
+        print(f"Port {port} is not open on {ip}")
+
+async def main():
     # Lists of IPs and ports to check
-    # with open('ips.json', 'r') as file:
     with open('test.json', 'r') as file:
         data = json.load(file)
         ips = data['ips']
     ports = [80, 443, 22, 21, 10000]
 
-    for ip in ips:
-        for port in ports:
-            if check_port(ip, port):
-                print(f"Port {port} is open on {ip}")
+    tasks = [check_ip_and_port(ip, port) for ip in ips for port in ports]
 
-                if port == 10000 and check_admin_interface(ip, port):
-                    # print(ip)
-                    mail.send_email_alerts(ip, port)
-
-            else:
-                print(f"Port {port} is not open on {ip}")
+    await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
