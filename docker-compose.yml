@@ -18,18 +18,12 @@ services:
 
   caddy:
     image: caddy:alpine
-    command: /bin/sh -c "echo '{
-      email mike@ditton.email
-      }
-
-      web.kt8s.ch {
-        reverse_proxy frontend:80
-      }' > /etc/caddy/Caddyfile && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
     ports:
       - 80:80
       - 443:443
     volumes:
       - caddy_data:/data
+      -  ./Caddyfile:/etc/caddy/Caddyfile
     depends_on:
       - api
       - frontend

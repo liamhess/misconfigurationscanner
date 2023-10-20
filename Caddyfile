@@ -1,0 +1,19 @@
+{
+   email misconfiguration@gmx.ch
+}
+
+(headers) {
+    header { Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+     # Enable cross-site filter (XSS) and tell browser to block detected attacks
+     X-Frame-Options "SAMEORIGIN"
+     # Prevent search engines from indexing (optional)
+     X-Robots-Tag "none"
+     # Server name remove
+     -Server
+   }
+}
+
+web.kt8s.ch {
+  reverse_proxy http://frontend:80
+}
+
