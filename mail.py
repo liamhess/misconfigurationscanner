@@ -41,4 +41,4 @@ def send_email_alerts(ips, ports):
 #ports = ['44', '10000', '25']
 
 # Funktion aufrufen, um E-Mails zu senden
-send_email_alerts(ip_text, ports)
+# send_email_alerts(ip_text, ports)
