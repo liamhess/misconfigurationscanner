@@ -130,6 +130,10 @@
         .darklight {
             margin-left: 1800px;
         }
+        #scan-history-list {
+        max-height: 300px; /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
+        overflow-y: scroll; /* Nur bei Bedarf scrollen */
+    }
     </style>
 
 </head>
@@ -184,35 +188,46 @@
     <script>
         const scanButton = document.getElementById('scan-button');
         const scanHistoryList = document.getElementById('scan-history-list');
-
+    
         // Lade zuvor gespeicherte Scan-Historie beim Seitenstart
         const storedScanHistory = JSON.parse(localStorage.getItem('scanHistory')) || [];
-
-        // Funktion zum Anzeigen und Speichern der Scan-Historie
+    
+        // Funktion zum Anzeigen und Speichern der begrenzten Scan-Historie
         function displayAndStoreScanHistory() {
             scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
             
-            storedScanHistory.forEach(entry => {
+            const maxEntries = 12; // Maximale Anzahl der anzuzeigenden Einträge
+    
+            for (let i = storedScanHistory.length - 1; i >= 0; i--) {
+                const entry = storedScanHistory[i];
                 const listItem = document.createElement('li');
                 listItem.textContent = entry;
                 scanHistoryList.appendChild(listItem);
-            });
+                
+                if (scanHistoryList.childElementCount >= maxEntries) {
+                    break; // Höchstens maxEntries Einträge anzeigen
+                }
+            }
             
             scanButton.addEventListener('click', () => {
                 const currentTime = new Date().toLocaleString();
-
+    
                 fetch('https://api64.ipify.org?format=json')
                     .then(response => response.json())
                     .then(data => {
                         const userIP = data.ip;
                         const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
                         storedScanHistory.push(scanEntry);
-
+    
                         // Fügen Sie die neue Scan-Historie hinzu und speichern Sie sie im localStorage
                         const listItem = document.createElement('li');
                         listItem.textContent = scanEntry;
                         scanHistoryList.appendChild(listItem);
-
+    
+                        while (scanHistoryList.childElementCount > maxEntries) {
+                            scanHistoryList.removeChild(scanHistoryList.firstChild);
+                        }
+    
                         localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
                     })
                     .catch(error => {
@@ -220,11 +235,9 @@
                     });
             });
         }
-
-        // Rufen Sie die Funktion auf, um die Scan-Historie anzuzeigen und zu speichern
+    
+        // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
         displayAndStoreScanHistory();
-
-
     </script>
 </body>
 
