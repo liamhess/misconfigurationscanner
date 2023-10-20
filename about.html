@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/43e55fa588.js" crossorigin="anonymous"></script>
     <title>About</title>
     <style>
         body {
@@ -26,22 +27,65 @@
             margin-top: -10px;
             margin-right: -10px;
         }
+
+        .linkgroups {
+            background-color: rgb(46, 46, 46);
+            border-radius: 10px;
+            margin-left: 300px;
+            padding-left: 20px;
+            padding-right: 50px;
+            gap: 60px;
+            display: flex;
+
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            width: 300px;
+            height: 15px;
+            border-radius: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            margin-left: 100px;
+            margin-top: 8px;
+
+        }
+
+        .search-bar input {
+            border: none;
+            background-color: transparent;
+            flex-grow: 1;
+        }
+
+        .search-bar i {
+            margin-right: 10px;
+        }
+
+        #scan-history-list {
+            max-height: 395px;
+            width: 370px;
+            margin-left: -20px;
+            /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
+            overflow-y: scroll;
+            /* Nur bei Bedarf scrollen */
+        }
     </style>
 </head>
 
 <body>
-    <h1>About Us</h1>
+
 
     <div class="top">
         <i class="fa-solid fa-shield-halved fa-2xl" style="color: #ffffff;"></i>
-        <h1><a href="index.html">Server Security-Check</a></h1>
+        <h1><a href="index.html" style="text-decoration: none; color: #ffffff;">Server Security-Check</a></h1>
         <div class="linkgroups">
             <p>Server</p>
             <p>Next</p>
             <p>Next</p>
             <p>Another</p>
             <p>Hello</p>
-            <a href="about.html">About</a>
+            <a href="about.html" style="text-decoration: none; color: #ffffff;">About</a>
             <div class="search-bar">
                 <i class="fa fa-search" style="color: black;"></i>
                 <input type="text" placeholder="Enter IP address" pattern="\d{1,3}(\.\d{1,3}){3}">
