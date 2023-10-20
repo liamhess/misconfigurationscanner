@@ -54,7 +54,7 @@
             align-items: center, top;
             text-align: center;
         }
-        
+
 
         .quadrat3 {
             display: flex;
@@ -132,11 +132,14 @@
         .darklight {
             margin-left: 1800px;
         }
+
         #scan-history-list {
-        max-height: 400px; /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
-        overflow-y: scroll; /* Nur bei Bedarf scrollen */
-        margin-right: 20px;
-    }
+            max-height: 400px;
+            /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
+            overflow-y: scroll;
+            /* Nur bei Bedarf scrollen */
+            margin-right: 20px;
+        }
     </style>
 
 </head>
@@ -171,7 +174,7 @@
             <h1 class="center">Scan History</h1>
             <ul id="scan-history-list"></ul>
         </div>
-    </div>    
+    </div>
 
     <div class="quadrat3">
         <div class="text">
@@ -189,12 +192,60 @@
         <i class="fa fa-moon"></i>
     </button>
     <script>
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const themeStyle = document.getElementById('theme-style');
+
+        themeToggleButton.addEventListener('click', () => {
+            if (themeStyle.innerText.includes('rgb(27, 27, 27)')) {
+
+                themeStyle.innerText = `
+                body {
+                        background-color: white;
+                        color: black;
+                    }
+
+                    .quadrat {
+                        background-color: #2b2b2b;
+                    }
+                    .quadrat2 {
+                        background-color: #2b2b2b;
+                    }
+                    .quadrat3 {
+                        background-color: #2b2b2b;
+                    }
+                    .quadrat4 {
+                        background-color: #2b2b2b;
+                    }
+
+                    .top{
+                        background-color: #555;
+
+                    }
+
+                    .linkgroups {
+                        background-color: black;
+
+
+                `;
+                themeToggleButton.innerHTML = '<i class="fa fa-sun"></i>';
+            } else {
+                themeStyle.innerText = `
+                    body {
+                        background-color: rgb(27, 27, 27);
+                        color: white;
+                    }
+                `;
+                themeToggleButton.innerHTML = '<i class="fa fa-moon"></i>';
+            }
+        });
+    </script>
+    <script>
         const scanButton = document.getElementById('scan-button');
         const scanHistoryList = document.getElementById('scan-history-list');
-    
+
         // Lade zuvor gespeicherte Scan-Historie beim Seitenstart
         const storedScanHistory = JSON.parse(localStorage.getItem('scanHistory')) || [];
-    
+
         // Funktion zum Anzeigen und Speichern der begrenzten Scan-Historie
         function displayAndStoreScanHistory() {
             scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
@@ -243,7 +294,7 @@
                         console.error('Fehler beim Abrufen der IP-Adresse:', error);
                     });
 
-                fetch('http://localhost:8000/start_scan', {method: 'GET'})
+                fetch('http://localhost:8000/start_scan', { method: 'GET' })
                     .then(response => response.json())
                     .then(data => console.log(data))
                     .catch((error) => {
@@ -251,7 +302,7 @@
                     });
             });
         }
-    
+
         // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
         displayAndStoreScanHistory();
     </script>
