@@ -1,3 +1,5 @@
 requests
 secure-smtplib
+aiohttp
+aiosocks
 python-decouple
