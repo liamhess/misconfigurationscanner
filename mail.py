@@ -39,9 +39,4 @@ def send_email_alerts(ips, ports):
 ips = '127.0.0.1'
 ports = ['44', '10000', '25']
 
-# Funktion aufrufen, um E-Mails zu senden
-<<<<<<< HEAD
-# send_email_alerts(ip_text, ports)
-=======
-send_email_alerts(ips, ports)
->>>>>>> bfce0a70ef9568f0ba646e69be24afa1113474e2
+
