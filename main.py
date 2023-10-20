@@ -2,6 +2,7 @@ import socket
 import requests
 import urllib3
 import mail
+import json
 # Disable the InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -30,7 +31,9 @@ def check_admin_interface(ip, port):
     return False
 def main():
     # Lists of IPs and ports to check
-    ips = ['46.14.53.154', '8.8.8.8', '193.33.142.200']
+    with open('ips.json', 'r') as file:
+        data = json.load(file)
+        ips = data['ips']
     ports = [80, 443, 22, 21, 10000]
 
     for ip in ips:
