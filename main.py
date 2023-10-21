@@ -42,7 +42,7 @@ async def check_ip_and_port(ip, port):
 @app.get("/start_scan")
 async def start_scan():
     # Lists of IPs and ports to check
-    with open('test.json', 'r') as file:
+    with open('ips.json', 'r') as file:
         data = json.load(file)
         ips = data['ips']
     ports = [80, 443, 22, 21, 10000, 2195, 2196, 25, 514, 5223, 541, 853, 8888, 8890, 9582, 53]
