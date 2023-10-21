@@ -30,7 +30,7 @@ async def check_admin_interface(ip, port):
 async def check_ip_and_port(ip, port):
     if await check_port(ip, port):
         print(f"Port {port} is open on {ip}")
-        mail.send_email_alerts(ip, port)
+        # mail.send_email_alerts(ip, port)
         return {ip: port, "open": True}
     else:
         print(f"Port {port} is not open on {ip}")
