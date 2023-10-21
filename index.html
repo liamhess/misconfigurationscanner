@@ -351,22 +351,26 @@
             displayAndStoreScanHistory();
 
             scanButton.addEventListener('click', () => {
-                let username = 'user';
-                let password = 'U3RhcnQxMjMh';
-                let headers = new Headers();
-
-                headers.append('Authorization', 'Basic ' + btoa(username + ":" + password));
-
-                fetch('https://api.kt8s.ch/start_scan', {
-                    method: 'GET',
-                    headers: headers
-                })
-                    .then(response => response.json())
-                    .then(data => console.log(data))
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
+            fetch('https://api.kt8s.ch/start_scan', {
+                method: 'GET',
+                mode: 'no-cors'
+            })
+            .then(response => {
+                if (response.type === 'opaque') {
+                    console.log('Response received, but its type is opaque, so we cannot read the data');
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data) {
+                    console.log(data);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
             });
+        });
         });
     </script>
     <!-- up until here. dont touch -->
