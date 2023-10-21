@@ -9,7 +9,7 @@ services:
       - SMTP_SERVER=mail.gmx.ch
       - SMTP_PORT=587
       - SENDER_EMAIL=misconfiguration@gmx.ch
-      - RECEIVER_EMAIL=hackaton@ditton.email
+      - RECEIVER_EMAIL=mike.d.ditton@gmail.com
     networks:
       - backend
 
