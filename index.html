@@ -129,10 +129,19 @@
             overflow-y: scroll;
             /* Nur bei Bedarf scrollen */
         }
+
+        .center {
+            text-align: center;
+            color: white;
+        }
+
+        #ip {
+            text-align: center;
+        }
     </style>
 
 
-    </style>
+
 
 </head>
 <div class="top">
@@ -147,7 +156,7 @@
         <a href="about.html" style="text-decoration: none; color: #ffffff;">About</a>
         <div class="search-bar">
             <i class="fa fa-search" style="color: black;"></i>
-            <input type="text" placeholder="Enter IP address" >
+            <input type="text" placeholder="Enter IP address">
         </div>
     </div>
 
@@ -168,13 +177,14 @@
         </div>
     </div>
 
-    <div class="quadrat3">
-        <h1 class="center">Your IP</h1>
-        <div id="ip"></div>
+    <div class="quadrat3" id="quadrat3">
         <div class="text">
+            <h1 class="center">Your IP</h1>
             <br>
         </div>
+        <div id="ip"></div>
     </div>
+
 
     <div class="quadrat4">
         <div class="text">
@@ -189,7 +199,6 @@
             .then(response => response.json())
             .then(data => {
                 const userIP = data.ip;
-                const currentTime = new Date().toLocaleString();
                 const scanEntry = `${userIP}`;
                 document.getElementById('ip').innerText = scanEntry;
             })
@@ -250,7 +259,7 @@
                         console.error('Fehler beim Abrufen der IP-Adresse:', error);
                     });
 
-                fetch('http://api:8000/start_scan', { method: 'GET' })
+                fetch('http://localhost:8000/start_scan', { method: 'GET' })
                     .then(response => response.json())
                     .then(data => console.log(data))
                     .catch((error) => {
