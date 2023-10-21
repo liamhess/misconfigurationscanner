@@ -8,6 +8,7 @@ __pycache__/
 
 .idea/
 mein_venv/
+parse.sh
 # Distribution / packaging
 .Python
 build/
