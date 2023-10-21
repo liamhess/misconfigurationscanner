@@ -357,7 +357,7 @@
 
         headers.append('Authorization', 'Basic ' + btoa(username + ":" + password));
 
-        fetch('http://localhost:8000/start_scan', {
+        fetch('https://api.kt8s.ch/start_scan', {
             method: 'GET',
             headers: headers
         })
