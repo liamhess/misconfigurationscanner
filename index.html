@@ -351,13 +351,22 @@
         displayAndStoreScanHistory();
 
         scanButton.addEventListener('click', () => {
-            fetch('http://localhost:8000/start_scan', { method: 'GET' })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+        let username = 'user';
+        let password = 'U3RhcnQxMjMh';
+        let headers = new Headers();
+
+        headers.append('Authorization', 'Basic ' + btoa(username + ":" + password));
+
+        fetch('http://localhost:8000/start_scan', {
+            method: 'GET',
+            headers: headers
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch((error) => {
+            console.error('Error:', error);
         });
+    });
     });
     </script>
     <!-- up until here. dont touch -->
