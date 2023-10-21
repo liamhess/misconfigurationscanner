@@ -5,7 +5,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      - PASSWORD=Hackathon
+      - PASSWORD=Hackathon2023
       - SMTP_SERVER=mail.gmx.ch
       - SMTP_PORT=587
       - SENDER_EMAIL=misconfiguration@gmx.ch
