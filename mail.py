@@ -8,13 +8,19 @@ def send_email_alerts(ips, ports):
     receiver_email = config('RECEIVER_EMAIL')
     password = config('PASSWORD')
 
+    # Überprüfen Sie den Portwert
+    if ports == 10000:
+        subject = 'Securitywarning for Admin Interface'
+        body = f'This is a warning, on servers with the following IPs: {ips}, the port 10000 is open! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n\n\n\n Kind Regards \n Your Security-Team'
+    else:
+        subject = 'Securitywarning on port'
+        body = f'This is a warning, on servers with the following IPs: {ips}, the port 10000 is open! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n\n\n\n Kind Regards \n Your Security-Team'
+
     # Erstellen der E-Mail-Nachricht
     message = MIMEMultipart()
     message['From'] = sender_email
     message['To'] = receiver_email
-    message['Subject'] = 'Securitywarning for Servers with the IPs:'
-
-    body = f'This is a warning, on servers with the following IPs: {ips}, the following ports are open: {ports}! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n\n\n\n Kind Regards \n Your Security-Team'
+    message['Subject'] = subject
     message.attach(MIMEText(body, 'plain'))
 
     # Verbindung zum E-Mail-Server herstellen
@@ -31,3 +37,6 @@ def send_email_alerts(ips, ports):
 
     # Verbindung zum E-Mail-Server beenden
     server.quit()
+
+    # Überprüfen, ob die E-Mail erfolgreich gesendet wurde
+    print("E-Mail wurde erfolgreich gesendet.")
