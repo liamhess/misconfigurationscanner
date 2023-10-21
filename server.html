@@ -65,12 +65,25 @@
         #json-data {
             display: grid;
             color: white;
-            justify-content: center; /* Zentriert den Inhalt horizontal */
-            align-items: center; /* Zentriert den Inhalt vertikal */
-            height: 100vh; /* Nutzt die volle Höhe des Viewports */
+            justify-content: center;
+            /* Zentriert den Inhalt horizontal */
+            align-items: center;
+            /* Zentriert den Inhalt vertikal */
+            height: 100vh;
+            /* Nutzt die volle Höhe des Viewports */
             font-size: 28px;
-            margin-left: -750px;
+            margin-left: 150px;
             margin-top: 30px;
+        }
+
+        .square {
+            background-color: rgb(0, 0, 0);
+            margin-left: 0px;
+            width: 500px;
+            padding-right: 400px;
+            border-radius: 40px;
+            height: auto;
+
         }
     </style>
 </head>
@@ -93,16 +106,19 @@
             </div>
         </div>
     </div>
+    <div id="json-data" class="square" style="
+    height: auto" ;>
 
-    <div id="json-data"></div>
+    </div>
+
 
     <script>
         // Die URL zur JSON-Datei im gleichen Verzeichnis wie Ihre HTML-Datei
         var jsonFileURL = 'ips.json';
-    
+
         // Das <div>-Element, in dem Sie die JSON-Inhalte anzeigen möchten
         var jsonDataDiv = document.getElementById('json-data');
-    
+
         // Eine AJAX-Anfrage, um die JSON-Datei zu laden
         var xhr = new XMLHttpRequest();
         xhr.open('GET', jsonFileURL, true);
@@ -110,10 +126,10 @@
             if (xhr.readyState === 4 && xhr.status === 200) {
                 // JSON-Inhalte aus der Antwort parsen
                 var jsonData = JSON.parse(xhr.responseText);
-    
+
                 // Extrahieren Sie die IP-Adressen aus dem JSON und trennen Sie sie mit Zeilenumbrüchen
                 var ips = jsonData.ips.join('\n');
-    
+
                 // Erstellen Sie ein <pre>-Element, um den formatierten Text anzuzeigen
                 var pre = document.createElement('pre');
                 pre.textContent = ips;
@@ -121,6 +137,7 @@
             }
         };
         xhr.send();
-    </script>   
+    </script>
 </body>
+
 </html>
