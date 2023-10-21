@@ -353,8 +353,7 @@
 
             scanButton.addEventListener('click', () => {
             fetch('https://api.kt8s.ch/start_scan', {
-                method: 'GET',
-                mode: 'no-cors'
+                method: 'GET'
             })
             .then(response => {
                 if (response.type === 'opaque') {
