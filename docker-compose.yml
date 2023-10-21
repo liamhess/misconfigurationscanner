@@ -20,20 +20,20 @@ services:
     networks:
       - backend
 
-        #   caddy:
-        #     image: caddy:alpine
-        #     ports:
-        #       - 80:80
-        #       - 443:443
-        #     volumes:
-        #       - caddy_data:/data
-        #       -  ./Caddyfile:/etc/caddy/Caddyfile
-        #     depends_on:
-        #       - api
-        #       - frontend
-        #     networks:
-        #       - backend
-        #       - frontend
+  caddy:
+     image: caddy:alpine
+     ports:
+       - 80:80
+       - 443:443
+     volumes:
+       - caddy_data:/data
+       -  ./Caddyfile:/etc/caddy/Caddyfile
+     depends_on:
+       - api
+       - frontend
+     networks:
+       - backend
+       - frontend
 
 networks:
   backend:
