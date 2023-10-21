@@ -206,10 +206,11 @@
 
 <body>
     <div class="quadrat">
-        <div class="text">
-            <h1>Scan open Ports</h1>
-            <button id="scan-button" class="button" style="margin-left: 25px;">Scan</button>
-        </div>
+    <div class="text">
+        <h1>Scan open Ports</h1>
+        <button id="scan-button" class="button" style="margin-left: 25px;">Scan</button>
+        <div id="json-response" style="color: white;"></div> <!-- New div to display JSON data -->
+    </div>
     </div>
     <div class="quadrat2">
         <div class="text">
@@ -365,13 +366,15 @@
             .then(data => {
                 if (data) {
                     console.log(data);
+                    // Insert JSON data into HTML
+                    document.getElementById('json-response').innerText = JSON.stringify(data, null, 2);
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
         });
-        });
+            });
     </script>
     <!-- up until here. dont touch -->
 </body>
