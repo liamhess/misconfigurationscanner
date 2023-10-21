@@ -9,7 +9,7 @@ services:
       - SMTP_SERVER=mail.gmx.net
       - SMTP_PORT=587
       - SENDER_EMAIL=hackathon@gmx.ch
-      - RECEIVER_EMAIL=mike.ditton@outlook.com  
+      - RECEIVER_EMAIL=liam.rossel@gmail.com
     networks:
       - backend
 
