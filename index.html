@@ -140,8 +140,12 @@
             margin-bottom: 200px;
         }
 
-        .centered-button {
+        .cbutton {
             text-align: center;
+        }
+
+        #clear-button {
+            border-radius: 20px;
         }
     </style>
 </head>
@@ -217,7 +221,7 @@
         clearButton.addEventListener('click', clearLocalStorage);
 
         const centerDiv = document.querySelector('.quadrat3 .text');
-        centerDiv.classList.add('centered-button');
+        centerDiv.classList.add('cbutton');
         centerDiv.appendChild(clearButton);
 
         fetch('https://api.ipify.org?format=json')
