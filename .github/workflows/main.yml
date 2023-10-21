@@ -1,0 +1,27 @@
+name: Docker
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Build the Docker images
+      run: |
+        docker build -t dockermike1809/umb-frontend -f Dockerfile.ui .
+        docker build -t dockermike1809/umb-api -f Dockerfile.api .
+
+    - name: Push to DockerHub
+      run: |
+        docker push dockermike1809/umb-frontend
+        docker push dockermike1809/umb-api

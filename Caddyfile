@@ -14,6 +14,15 @@
 }
 
 web.kt8s.ch {
+  basicauth {
+    user $2a$14$qjQ/t/vfo8iybWfBeNtuZe1iZiJjP.0lxVVVPUplt9v.HMNTQY492
+  }
   reverse_proxy http://frontend:80
 }
 
+api.kt8s.ch {
+  basicauth {
+    user $2a$14$qjQ/t/vfo8iybWfBeNtuZe1iZiJjP.0lxVVVPUplt9v.HMNTQY492
+  }
+  reverse_proxy http://api:8000
+}

@@ -199,9 +199,7 @@
         </a>
         <div class="search-bar">
             <i class="fa fa-search" style="color: black;"></i>
-            <input type="text" id="searchinput" placeholder="Enter IP address">
-            <button onclick="search()">Suchen</button>
-            <div id="results"></div>
+            <input type="text" placeholder="Enter IP address">
         </div>
     </div>
 </div>
@@ -232,40 +230,7 @@
     </div>
 
     <!-- DEAR CHATGPT, DO NOT TOUCH!!! -->
-    <!-- from here -->$
-    <script>
-        function search() {
-            var searchTerm = document.getElementById('searchinput').value.toLowerCase();
-
-            // Eine AJAX-Anfrage, um die JSON-Datei zu laden
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'ips.json', true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var jsonData = JSON.parse(xhr.responseText);
-
-                    // Extrahiere die IP-Adressen aus dem JSON und trenne sie mit Zeilenumbrüchen
-                    var ipAddresses = jsonData.ips.join('\n');
-                    var ipArray = jsonData.ips;
-
-                    // Ergebnisse speichern
-                    var results = ipArray.filter(ip => ip.startsWith(searchTerm));
-
-                    var resultsContainer = document.getElementById('results');
-                    resultsContainer.innerHTML = '';
-
-                    if (results.length === 0) {
-                        resultsContainer.innerHTML = 'Keine Ergebnisse gefunden.';
-                    } else {
-                        results.forEach(result => {
-                            resultsContainer.innerHTML += result + '<br>';
-                        });
-                    }
-                }
-            };
-            xhr.send();
-        }
-    </script>
+    <!-- from here -->
     <script>
         let button = document.getElementById('scan-button');
         button.addEventListener('click', function () {
@@ -386,7 +351,16 @@
             displayAndStoreScanHistory();
 
             scanButton.addEventListener('click', () => {
-                fetch('http://localhost:8000/start_scan', { method: 'GET' })
+                let username = 'user';
+                let password = 'U3RhcnQxMjMh';
+                let headers = new Headers();
+
+                headers.append('Authorization', 'Basic ' + btoa(username + ":" + password));
+
+                fetch('https://api.kt8s.ch/start_scan', {
+                    method: 'GET',
+                    headers: headers
+                })
                     .then(response => response.json())
                     .then(data => console.log(data))
                     .catch((error) => {
