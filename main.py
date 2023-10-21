@@ -32,6 +32,8 @@ async def check_ip_and_port(ip, port):
         print(f"Port {port} is open on {ip}")
         if port == 10000 and await check_admin_interface(ip, port):
             mail.send_email_alerts(ip, port)
+        elif port == 10443:
+            mail.send_email_alerts(ip, port)
         return {ip: port, "open": True}
     else:
         print(f"Port {port} is not open on {ip}")
@@ -43,7 +45,7 @@ async def start_scan():
     with open('test.json', 'r') as file:
         data = json.load(file)
         ips = data['ips']
-    ports = [80, 443, 22, 21, 10000]
+    ports = [80, 443, 22, 21, 10000, 2195, 2196, 25, 514, 5223, 541, 853, 8888, 8890, 9582, 53]
 
     tasks = [check_ip_and_port(ip, port) for ip in ips for port in ports]
     results = await asyncio.gather(*tasks)
