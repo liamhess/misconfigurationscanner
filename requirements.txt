@@ -1,5 +1,7 @@
 requests
 secure-smtplib
-aiohttp
 aiosocks
 python-decouple
+aiohttp
+furl
+frozenlist==1.4.0
