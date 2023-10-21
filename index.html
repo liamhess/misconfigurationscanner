@@ -90,8 +90,8 @@
         .linkgroups {
             background-color: rgb(46, 46, 46);
             border-radius: 10px;
-            margin-left: 300px;
-            padding-left: 20px;
+            margin-left: 500px;
+            padding-left: 100px;
             padding-right: 50px;
             gap: 60px;
             display: flex;
@@ -106,7 +106,7 @@
             border-radius: 20px;
             padding: 10px;
             background-color: #f1f1f1;
-            margin-left: 100px;
+            margin-left: 50px;
             margin-top: 8px;
 
         }
@@ -139,6 +139,7 @@
             /*text-align: center;*/
             margin-bottom: 200px;
         }
+
         .centered-button {
             text-align: center;
         }
@@ -148,12 +149,15 @@
     <i class="fa-solid fa-shield-halved fa-2xl" style="color: #ffffff;"></i>
     <h1>Server security-Check</h1>
     <div class="linkgroups">
-        <a href="server.html" style="text-decoration: none; color: #ffffff;">Server</a>
-        <p>Next</p>
-        <p>Next</p>
-        <p>Another</p>
-        <p>Hello</p>
-        <a href="projektidee.html" style="text-decoration: none; color: #ffffff;">Projektidee</a>
+        <a href="server.html" style="text-decoration: none; color: #ffffff;">
+            <p>Server</p>
+        </a>
+        <a href="team.html" style="text-decoration: none; color: #ffffff;">
+            <p>team</p>
+        </a>
+        <a href="projektidee.html" style="text-decoration: none; color: #ffffff;">
+            <p>Projektidee</p>
+        </a>
         <div class="search-bar">
             <i class="fa fa-search" style="color: black;"></i>
             <input type="text" placeholder="Enter IP address">
@@ -178,14 +182,14 @@
         <div class="text">
             <h1 class="center">Scan History Clear</h1>
         </div>
-    </div>   
+    </div>
     <div class="quadrat4" id="quadrat3">
         <div class="text">
             <h1 class="center">Your IP</h1>
             <h2 id="ip">Ip</h2>
-        </div> 
-    </div> 
-    
+        </div>
+    </div>
+
     </button>
     <script>
         fetch('https://api.ipify.org?format=json')
@@ -203,17 +207,17 @@
             localStorage.clear();
             scanHistoryList.innerHTML = ''; // Leeren Sie auch die Anzeige
         }
-    
+
         // Fügen Sie einen Button zum Löschen des Local Storage hinzu und zentrieren Sie ihn
         const clearButton = document.createElement('button');
         clearButton.textContent = 'Clear Historybox';
         clearButton.id = 'clear-button';
         clearButton.addEventListener('click', clearLocalStorage);
-    
+
         const centerDiv = document.querySelector('.quadrat3 .text');
         centerDiv.classList.add('centered-button');
         centerDiv.appendChild(clearButton);
-    
+
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
@@ -222,31 +226,31 @@
                 document.getElementById('ip').innerText = scanEntry;
             })
             .catch(error => console.error('Error:', error));
-    
+
         const scanButton = document.getElementById('scan-button');
         const scanHistoryList = document.getElementById('scan-history-list');
-    
+
         // Lade zuvor gespeicherte Scan-Historie beim Seitenstart
         const storedScanHistory = JSON.parse(localStorage.getItem('scanHistory')) || [];
-    
+
         // Funktion zum Anzeigen und Speichern der begrenzten Scan-Historie
         function displayAndStoreScanHistory() {
             scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
-    
+
             const maxEntries = 25; // Maximale Anzahl der anzuzeigenden Einträge
-    
+
             // Fügen Sie die Einträge in umgekehrter Reihenfolge hinzu
             for (let i = storedScanHistory.length - 1; i >= 0; i--) {
                 const entry = storedScanHistory[i];
                 const listItem = document.createElement('li');
                 listItem.textContent = entry;
                 scanHistoryList.appendChild(listItem);
-    
+
                 if (scanHistoryList.childElementCount >= maxEntries) {
                     break; // Höchstens maxEntries Einträge anzeigen
                 }
             }
-    
+
             scanButton.addEventListener('click', () => {
                 const currentTime = new Date().toLocaleString();
                 fetch('https://api64.ipify.org?format=json')
@@ -254,15 +258,15 @@
                     .then(data => {
                         const userIP = data.ip;
                         const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
-    
+
                         // Fügen Sie neue Einträge oben in die Liste hinzu
                         storedScanHistory.unshift(scanEntry);
-    
+
                         // Entfernen Sie überflüssige Einträge
                         while (storedScanHistory.length > maxEntries) {
                             storedScanHistory.pop();
                         }
-    
+
                         // Aktualisieren Sie die Anzeige
                         scanHistoryList.innerHTML = '';
                         storedScanHistory.forEach(entry => {
@@ -270,13 +274,13 @@
                             listItem.textContent = entry;
                             scanHistoryList.appendChild(listItem);
                         });
-    
+
                         localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
                     })
                     .catch(error => {
                         console.error('Fehler beim Abrufen der IP-Adresse:', error);
                     });
-    
+
                 fetch('http://localhost:8000/start_scan', { method: 'GET' })
                     .then(response => response.json())
                     .then(data => console.log(data))
@@ -285,9 +289,10 @@
                     });
             });
         }
-    
+
         // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
         displayAndStoreScanHistory();
-    </script>        
+    </script>
 </body>
+
 </html>
