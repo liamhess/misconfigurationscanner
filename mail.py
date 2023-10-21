@@ -11,10 +11,10 @@ def send_email_alerts(ips, ports):
     # Überprüfen Sie den Portwert
     if ports == 10000:
         subject = 'Securitywarning for Admin Interface'
-        body = f'This is a warning, on servers with the following IPs: {ips}, the port 10000 is open! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n\n\n\n Kind Regards \n Your Security-Team'
+        body = f'This is a warning, on servers with the following IPs: {ips}, the ports {ports} is open! \n\n The Admin interface is open, please fix this immediately! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n\n\n\n Kind Regards \n Your Security-Team'
     else:
         subject = 'Securitywarning on port'
-        body = f'This is a warning, on servers with the following IPs: {ips}, the port 10000 is open! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n\n\n\n Kind Regards \n Your Security-Team'
+        body = f'This is a warning, on servers with the following IPs: {ips}, the ports {ports} is open! \n\n This poses a major risk to our security \n\n On this page you will learn how to close the port:\nhttps://www.acunetix.com/blog/articles/close-unused-open-ports/\n\n\n\n Kind Regards \n Your Security-Team'
 
     # Erstellen der E-Mail-Nachricht
     message = MIMEMultipart()
