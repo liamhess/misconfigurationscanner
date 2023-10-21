@@ -2,6 +2,8 @@ version: '3.8'
 services: 
   api:
     image: dockermike1809/umb-api
+    ports:
+      - 8000:8000
     environment:
       - PASSWORD=Hackathon
       - SMTP_SERVER=mail.gmx.ch
