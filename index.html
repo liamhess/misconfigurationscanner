@@ -84,8 +84,33 @@
             border-radius: 20px;
             width: 150px;
             height: 45px;
-            margin-left: 25px;
+            margin-left: 60px;
+            background: red;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
 
+
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes colorChange {
+            0% {
+                background-color: green;
+            }
+
+            100% {
+                background-color: red;
+            }
         }
 
         .linkgroups {
@@ -148,6 +173,10 @@
         #clear-button {
             border-radius: 20px;
         }
+
+        input {
+            outline: none;
+        }
     </style>
 </head>
 <div class="top">
@@ -199,6 +228,16 @@
 
     </button>
     <script>
+        let button = document.getElementById('scan-button');
+        button.addEventListener('click', function () {
+            button.style.animation = "colorChange 5s linear";
+            button.disabled = true;
+            setTimeout(function () {
+                button.style.animation = "";
+                button.style.backgroundColor = "red";
+                button.disabled = false;
+            }, 5000); // Disable for 5 seconds
+        });
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
@@ -210,83 +249,83 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-        // Funktion zum Löschen des Local Storage
-        function clearLocalStorage() {
-            localStorage.clear();
-            scanHistoryList.innerHTML = ''; // Leeren Sie auch die Anzeige
-        }
-
-        // Fügen Sie einen Button zum Löschen des Local Storage hinzu und zentrieren Sie ihn
-        const clearButton = document.createElement('button');
-        clearButton.textContent = 'Clear History';
-        clearButton.id = 'clear-button';
-        clearButton.addEventListener('click', clearLocalStorage);
-
-        const centerDiv = document.querySelector('.quadrat3 .text');
-        centerDiv.classList.add('centered-button');
-        centerDiv.appendChild(clearButton);
-
-        const scanButton = document.getElementById('scan-button');
-        const scanHistoryList = document.getElementById('scan-history-list');
-
-        // Lade zuvor gespeicherte Scan-Historie beim Seitenstart
-        const storedScanHistory = JSON.parse(localStorage.getItem('scanHistory')) || [];
-
-        // Funktion zum Anzeigen und Speichern der begrenzten Scan-Historie
-        function displayAndStoreScanHistory() {
-            scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
-
-            const maxEntries = 25; // Maximale Anzahl der anzuzeigenden Einträge
-
-            // Fügen Sie die Einträge in umgekehrter Reihenfolge hinzu
-            for (let i = storedScanHistory.length - 1; i >= 0; i--) {
-                const entry = storedScanHistory[i];
-                const listItem = document.createElement('li');
-                listItem.textContent = entry;
-                scanHistoryList.appendChild(listItem);
-
-                if (scanHistoryList.childElementCount >= maxEntries) {
-                    break; // Höchstens maxEntries Einträge anzeigen
-                }
+            // Funktion zum Löschen des Local Storage
+            function clearLocalStorage() {
+                localStorage.clear();
+                scanHistoryList.innerHTML = ''; // Leeren Sie auch die Anzeige
             }
 
-            scanButton.addEventListener('click', () => {
-                const currentTime = new Date().toLocaleString();
-                fetch('https://api64.ipify.org?format=json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const userIP = data.ip;
-                        const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
+            // Fügen Sie einen Button zum Löschen des Local Storage hinzu und zentrieren Sie ihn
+            const clearButton = document.createElement('button');
+            clearButton.textContent = 'Clear History';
+            clearButton.id = 'clear-button';
+            clearButton.addEventListener('click', clearLocalStorage);
 
-                        // Fügen Sie neue Einträge oben in die Liste hinzu
-                        storedScanHistory.unshift(scanEntry);
+            const centerDiv = document.querySelector('.quadrat3 .text');
+            centerDiv.classList.add('centered-button');
+            centerDiv.appendChild(clearButton);
 
-                        // Entfernen Sie überflüssige Einträge
-                        while (storedScanHistory.length > maxEntries) {
-                            storedScanHistory.pop();
-                        }
+            const scanButton = document.getElementById('scan-button');
+            const scanHistoryList = document.getElementById('scan-history-list');
 
-                        // Aktualisieren Sie die Anzeige
-                        scanHistoryList.innerHTML = '';
-                        storedScanHistory.forEach(entry => {
-                            const listItem = document.createElement('li');
-                            listItem.textContent = entry;
-                            scanHistoryList.appendChild(listItem);
+            // Lade zuvor gespeicherte Scan-Historie beim Seitenstart
+            const storedScanHistory = JSON.parse(localStorage.getItem('scanHistory')) || [];
+
+            // Funktion zum Anzeigen und Speichern der begrenzten Scan-Historie
+            function displayAndStoreScanHistory() {
+                scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
+
+                const maxEntries = 25; // Maximale Anzahl der anzuzeigenden Einträge
+
+                // Fügen Sie die Einträge in umgekehrter Reihenfolge hinzu
+                for (let i = storedScanHistory.length - 1; i >= 0; i--) {
+                    const entry = storedScanHistory[i];
+                    const listItem = document.createElement('li');
+                    listItem.textContent = entry;
+                    scanHistoryList.appendChild(listItem);
+
+                    if (scanHistoryList.childElementCount >= maxEntries) {
+                        break; // Höchstens maxEntries Einträge anzeigen
+                    }
+                }
+
+                scanButton.addEventListener('click', () => {
+                    const currentTime = new Date().toLocaleString();
+                    fetch('https://api64.ipify.org?format=json')
+                        .then(response => response.json())
+                        .then(data => {
+                            const userIP = data.ip;
+                            const scanEntry = `Scan gestartet von ${userIP} am ${currentTime}`;
+
+                            // Fügen Sie neue Einträge oben in die Liste hinzu
+                            storedScanHistory.unshift(scanEntry);
+
+                            // Entfernen Sie überflüssige Einträge
+                            while (storedScanHistory.length > maxEntries) {
+                                storedScanHistory.pop();
+                            }
+
+                            // Aktualisieren Sie die Anzeige
+                            scanHistoryList.innerHTML = '';
+                            storedScanHistory.forEach(entry => {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = entry;
+                                scanHistoryList.appendChild(listItem);
+                            });
+
+                            localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
+                        })
+                        .catch(error => {
+                            console.error('Fehler beim Abrufen der IP-Adresse:', error);
                         });
 
-                        localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
-                    })
-                    .catch(error => {
-                        console.error('Fehler beim Abrufen der IP-Adresse:', error);
-                    });
+                    // Rest Ihres Codes hier
+                });
+            }
 
-                // Rest Ihres Codes hier
-            });
-        }
-
-        // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
-        displayAndStoreScanHistory();
-    })
+            // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
+            displayAndStoreScanHistory();
+        })
     </script>
 </body>
 
