@@ -208,6 +208,7 @@
             .catch(error => console.error('Error:', error));
     </script>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
         // Funktion zum Löschen des Local Storage
         function clearLocalStorage() {
             localStorage.clear();
@@ -216,22 +217,13 @@
 
         // Fügen Sie einen Button zum Löschen des Local Storage hinzu und zentrieren Sie ihn
         const clearButton = document.createElement('button');
-        clearButton.textContent = 'Clear Historybox';
+        clearButton.textContent = 'Clear History';
         clearButton.id = 'clear-button';
         clearButton.addEventListener('click', clearLocalStorage);
 
         const centerDiv = document.querySelector('.quadrat3 .text');
-        centerDiv.classList.add('cbutton');
+        centerDiv.classList.add('centered-button');
         centerDiv.appendChild(clearButton);
-
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                const userIP = data.ip;
-                const scanEntry = `${userIP}`;
-                document.getElementById('ip').innerText = scanEntry;
-            })
-            .catch(error => console.error('Error:', error));
 
         const scanButton = document.getElementById('scan-button');
         const scanHistoryList = document.getElementById('scan-history-list');
@@ -287,17 +279,13 @@
                         console.error('Fehler beim Abrufen der IP-Adresse:', error);
                     });
 
-                fetch('http://localhost:8000/start_scan', { method: 'GET' })
-                    .then(response => response.json())
-                    .then(data => console.log(data))
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
+                // Rest Ihres Codes hier
             });
         }
 
         // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
         displayAndStoreScanHistory();
+    })
     </script>
 </body>
 
