@@ -6,10 +6,10 @@ services:
       - 8000:8000
     environment:
       - PASSWORD=Hackathon
-      - SMTP_SERVER=mail.gmx.ch
+      - SMTP_SERVER=mail.gmx.net
       - SMTP_PORT=587
-      - SENDER_EMAIL=misconfiguration@gmx.ch
-      - RECEIVER_EMAIL=mike@ditton.ch
+      - SENDER_EMAIL=hackathon@gmx.ch
+      - RECEIVER_EMAIL=liam.rossel@gmail.com
     networks:
       - backend
 
