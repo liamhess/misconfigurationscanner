@@ -3,7 +3,9 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.openapi.utils import get_openapi
+from pydantic import BaseModel, Field
 from typing import Dict
+from typing import List
 import json
 import asyncio
 import aiohttp
@@ -87,7 +89,11 @@ def authenticate_user(credentials: HTTPBasicCredentials):
         )
     return credentials.username
 
-@app.get("/get_ports")
+@app.get("/get_ports",
+    tags=["Ports"],
+    summary="Get ports",
+    description="This endpoint checks the given IPs and ports and returns the results.",
+    response_description="The results of the check")
 async def get_ports(credentials: HTTPBasicCredentials = Depends(security)):
     authenticate_user(credentials)
 
@@ -98,6 +104,12 @@ async def get_ports(credentials: HTTPBasicCredentials = Depends(security)):
 @app.post("/send_email")
 def send_email(credentials: HTTPBasicCredentials = Depends(security)):
     authenticate_user(credentials)
-    mail.send_email_alerts(ips, ports)
+    try:
+        success = mail.send_email_alerts(ips, ports)
+        if not success:
+            raise HTTPException(status_code=400, detail="Email sending failed")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return {"message": "Email sent successfully"}
 
 
