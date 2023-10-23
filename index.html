@@ -349,10 +349,13 @@
 
             // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
             displayAndStoreScanHistory();
-
-            scanButton.addEventListener('click', () => {
-            fetch('https://api.kt8s.ch/start_scan', {
-                method: 'GET'
+            
+           scanButton.addEventListener('click', () => {
+           fetch('https://api.kt8s.ch/start_scan', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic ' + btoa('frontend:WvEKdeRa2hJmfrMk1SKW') // replace 'username:password' with your actual username and password
+            }
             })
             .then(response => {
                 if (response.type === 'opaque') {
@@ -370,9 +373,9 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
+            }); 
             });
         });
-            });
     </script>
     <!-- up until here. dont touch -->
 </body>
