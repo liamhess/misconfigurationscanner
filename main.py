@@ -41,6 +41,12 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
+with open('ips.json', 'r') as file:
+    data = json.load(file)
+    ips = data['ips']
+with open('ports.json', 'r') as file:
+    data = json.load(file)
+    ports = data['ports']
 
 async def check_port(ip, port):
     try:
@@ -64,11 +70,9 @@ async def check_admin_interface(ip, port):
 
 async def check_ip_and_port(ip, port):
     if await check_port(ip, port):
-        print(f"Port {port} is open on {ip}")
         # mail.send_email_alerts(ip, port)
         return {ip: port, "open": True}
     else:
-        print(f"Port {port} is not open on {ip}")
         return {ip: port, "open": False}
 
 def authenticate_user(credentials: HTTPBasicCredentials):
@@ -83,15 +87,17 @@ def authenticate_user(credentials: HTTPBasicCredentials):
         )
     return credentials.username
 
-@app.get("/start_scan")
-async def start_scan(credentials: HTTPBasicCredentials = Depends(security)):
+@app.get("/get_ports")
+async def get_ports(credentials: HTTPBasicCredentials = Depends(security)):
     authenticate_user(credentials)
-    # Lists of IPs and ports to check
-    with open('ips.json', 'r') as file:
-        data = json.load(file)
-        ips = data['ips']
-    ports = [80, 443, 22, 21, 10000, 2195, 2196, 25, 514, 5223, 541, 853, 8888, 8890, 9582, 53]
 
     tasks = [check_ip_and_port(ip, port) for ip in ips for port in ports]
     results = await asyncio.gather(*tasks)
     return {"results": results}
+
+@app.post("/send_email")
+def send_email(credentials: HTTPBasicCredentials = Depends(security)):
+    authenticate_user(credentials)
+    mail.send_email_alerts(ips, ports)
+
+
