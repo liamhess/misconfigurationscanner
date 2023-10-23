@@ -90,10 +90,10 @@ def authenticate_user(credentials: HTTPBasicCredentials):
     return credentials.username
 
 @app.get("/get_ports",
-    tags=["Ports"],
-    summary="Get ports",
+    tags=["Getting Data"],
+    summary="Getting a JSON of all open ports for all IPs",
     description="This endpoint checks the given IPs and ports and returns the results.",
-    response_description="The results of the check")
+    response_description="JSON of open and closed ports")
 async def get_ports(credentials: HTTPBasicCredentials = Depends(security)):
     authenticate_user(credentials)
 
@@ -101,7 +101,11 @@ async def get_ports(credentials: HTTPBasicCredentials = Depends(security)):
     results = await asyncio.gather(*tasks)
     return {"results": results}
 
-@app.post("/send_email")
+@app.post("/send_email",
+    tags=["Notifying"],
+    summary="Notify user via E-Mail",
+    description="This endpoint sends an E-Mail to the user with all open and closed ports for all IPs that are declared",
+    response_description="Status of the E-Mail sending")
 def send_email(credentials: HTTPBasicCredentials = Depends(security)):
     authenticate_user(credentials)
     try:
