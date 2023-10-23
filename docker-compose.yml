@@ -10,6 +10,8 @@ services:
       - SMTP_PORT=$SMTP_PORT
       - SENDER_EMAIL=$SENDER_EMAIL
       - RECEIVER_EMAIL=$RECEIVER_EMAIL
+      - API_USERNAME=$API_USERNAME
+      - API_PASSWORD=$API_PASSWORD
     networks:
       - backend
 
