@@ -5,11 +5,11 @@ services:
     ports:
       - 8000:8000
     environment:
-      - PASSWORD=Hackathon
-      - SMTP_SERVER=mail.gmx.net
-      - SMTP_PORT=587
-      - SENDER_EMAIL=hackathon@gmx.ch
-      - RECEIVER_EMAIL=liam.rossel@gmail.com
+      - PASSWORD=$PASSWORD
+      - SMTP_SERVER=$SMTP_SERVER
+      - SMTP_PORT=$SMTP_PORT
+      - SENDER_EMAIL=$SENDER_EMAIL
+      - RECEIVER_EMAIL=$RECEIVER_EMAIL
     networks:
       - backend
 
