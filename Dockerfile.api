@@ -8,11 +8,6 @@ ENV PYTHONUNBUFFERED 1
 # Set work directory
 WORKDIR /code
 
-# Install system dependencies
-RUN apt-get update \
-    && apt-get -y install netcat gcc \
-    && apt-get clean
-
 # Install python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
