@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.openapi.utils import get_openapi
 from typing import Dict
@@ -11,6 +12,18 @@ from secrets import compare_digest
 from decouple import config
 
 app = FastAPI(docs_url='/')
+
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allows CORS for all get, post, etc. requests from the origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 security = HTTPBasic()
 
