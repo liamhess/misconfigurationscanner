@@ -99,7 +99,16 @@ async def get_ports(credentials: HTTPBasicCredentials = Depends(security)):
 
     tasks = [check_ip_and_port(ip, port) for ip in ips for port in ports]
     results = await asyncio.gather(*tasks)
-    return {"results": results}
+
+    # Creating a dictionary grouped by IP
+    grouped_results = {}
+    for result in results:
+        ip = list(result.keys())[0]
+        if ip not in grouped_results:
+            grouped_results[ip] = []
+        grouped_results[ip].append({list(result.values())[0]: result["open"]})
+
+    return {"results": grouped_results}
 
 @app.post("/send_email",
     tags=["Notifying"],
